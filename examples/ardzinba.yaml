@@ -1,0 +1,85 @@
+# Worked example: В. Г. Ардзинба, «Моя жизнь. Воспоминания» (Сухум, 2018, 512 с.).
+# This is the reference config that reproduces the first book converted with pdf2fb2.
+# Copy it to a new file per book and adjust.
+
+pdf: /home/mark/Документы/личные/books/Ardzinba_Moya_zhizn_2018.pdf
+out_dir: /home/mark/Документы/личные/books
+# out_stem: Ardzinba_Moya_zhizn_2018   # defaults to the PDF basename
+
+title: "Моя жизнь. Воспоминания"
+title_short: "Моя жизнь"
+lang: ru
+id: ardzinba-moya-zhizn-2018
+genres: [nonfiction, sci_biography]
+
+author:
+  first: Владислав
+  middle: Григорьевич
+  last: Ардзинба
+
+publish:
+  publisher: "Фонд Первого Президента Республики Абхазия"
+  city: Сухум
+  year: 2018
+
+annotation: |
+  Книга воспоминаний Первого Президента Республики Абхазия охватывает
+  период с 1945 по 2004 годы. События изложены в хронологическом порядке
+  и так, как были прожиты и прочувствованы автором — участником, а порой
+  создателем современной истории Абхазии.
+
+# Leading-space width that marks a red-line (new-paragraph) indent.
+# Get a suggestion with:  run.sh calibrate <pdf>
+indent:
+  para_min: 2
+  para_max: 6
+
+# Optional front-matter foreword pulled from pages before the first chapter,
+# between two text markers; the line equal to `title` is dropped, `signature`
+# is appended in italics.
+foreword:
+  title: "Уважаемый читатель!"
+  start_marker: "Уважаемый читатель"
+  end_marker: "Светлана Джергения"
+  signature: "Светлана Джергения"
+
+# Chapters, in order. start/end are PDF page numbers (here PDF page == printed
+# page, offset 0). `mode: hanging` = bibliography-style hanging indent.
+chapters:
+  - {title: "От автора",                                   start: 7,   end: 8}
+  - {title: "Детство",                                     start: 9,   end: 30}
+  - {title: "Педагогический институт им. А. М. Горького",  start: 31,  end: 42}
+  - {title: "Институт Востоковедения АН СССР",             start: 43,  end: 68}
+  - {title: "АбНИИ им. Д. И. Гулиа",                       start: 69,  end: 86}
+  - {title: "Верховный Совет СССР",                        start: 87,  end: 144}
+  - {title: "Верховный Совет Абхазии",                     start: 145, end: 186}
+  - {title: "Отечественная война народа Абхазии",          start: 187, end: 308}
+  - {title: "Послевоенные годы",                           start: 309, end: 430}
+  - {title: "В. Зантария. Исповедь лидера",               start: 431, end: 440}
+  - {title: "Список использованной литературы",            start: 441, end: 447, mode: hanging}
+
+# Sections present in the PDF but intentionally excluded (documented, not built).
+# "Указатель" is a two-column print-page name index — useless in an ebook and
+# scrambled by -layout, so it is dropped.
+skip:
+  - {title: "Указатель", start: 448, end: 456, reason: "two-column print-page index"}
+
+images:
+  mode: embed          # embed | none  (build --variant controls text vs images)
+  cmyk_invert: auto    # auto | always | never  (Adobe CMYK -> invert to avoid negatives)
+  quality: 85
+  cover_index: 0
+  # chapter-opening portrait: PDF page of the chapter start -> pdfimages index
+  portraits:
+    9: 0
+    31: 1
+    43: 2
+    69: 3
+    87: 4
+    145: 5
+    187: 6
+    309: 7
+  # trailing plate section: collect images from first_index onward
+  photoblock:
+    title: "Фотоблок"
+    first_index: 8
