@@ -1,5 +1,7 @@
 # pdf2fb2
 
+[Русская версия](README.ru.md)
+
 Convert a **text-layer** PDF book into clean **FB2**, with paragraphs, chapters,
 metadata and (optionally) embedded photos — the things a generic converter
 (Calibre) mangles on professionally typeset books.
@@ -83,7 +85,7 @@ No venv needed if those are installed. `run.sh` checks and tells you what's miss
 | `fb2.py` | assemble the FB2 XML (description, body, binaries) |
 | `diagnose.py` | text-layer / image / TOC diagnostics + indent calibration |
 | `examples/ardzinba.yaml` | reference config |
-| `skill/SKILL.md` | the `pdf-to-fb2` Claude Code skill (symlinked into `~/.claude/skills`) |
+| `skill/SKILL.md` | the `pdf-to-fb2` Claude Code skill (copy into `~/.claude/skills/pdf-to-fb2/` and set the path to `run.sh`) |
 
 See `SDD.md` for the design rationale and the boundaries of what generalises.
 
