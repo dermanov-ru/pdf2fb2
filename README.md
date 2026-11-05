@@ -11,6 +11,10 @@ judgement (chapter ranges, metadata, what to drop), and an operator (you, or the
 
 Scanned PDFs (no text layer) are **out of scope** — they need OCR first.
 
+**Web version:** https://dermanov.ru/pdf2fb2/ — the same ideas ported to TypeScript on
+top of pdf.js. Runs fully in the browser (the file never leaves the device), outputs
+FB2 and EPUB, has a reader preview. Source: [`web/`](web/).
+
 ## Why it exists
 
 `pdftotext` alone gives hard-wrapped line soup. But professionally typeset PDFs
@@ -82,3 +86,29 @@ No venv needed if those are installed. `run.sh` checks and tells you what's miss
 | `skill/SKILL.md` | the `pdf-to-fb2` Claude Code skill (symlinked into `~/.claude/skills`) |
 
 See `SDD.md` for the design rationale and the boundaries of what generalises.
+
+## Web version (`web/`)
+
+TypeScript port that runs in the browser on [pdf.js](https://github.com/mozilla/pdf.js)
+(`pdfjs-dist` 6.x, legacy build). Live: https://dermanov.ru/pdf2fb2/
+
+Instead of `pdftotext -layout` it works with pdf.js text coordinates, and needs no
+per-book config:
+
+- `extract.ts` — lines from text items, body font size = most frequent size, paragraph
+  indent in ems, drop caps, running headers (lines repeated on many pages), chapters from
+  PDF bookmarks or large headings, chapter titles spelled as in the printed TOC, footnotes
+  moved to the chapter end, title/author from the title page;
+- `textproc.ts` — paragraphs, hyphen gluing, title case (port of `textproc.py`);
+- `glyphfix.ts` + `ptserif-order.ts` — fonts embedded without a ToUnicode map
+  (CID Identity-H from Word/InDesign): pdf.js and poppler return glyph ids instead of
+  letters. ASCII/Latin-1 are restored by a fixed offset, the Cyrillic offset is found by
+  Russian letter frequencies; PT Serif is decoded by its exact glyph order (so Abkhaz
+  letters and dashes come out right too);
+- `pdfjs-patch.mjs` — Vite plugin patching the pdf.js worker: some typesetters encode the
+  em dash as a wide U+00AD, which pdf.js otherwise drops as an invisible mark;
+- `fb2.ts`, `epub.ts` — FB2 2.0 and EPUB 3 (with `toc.ncx` for older readers, zipped by
+  [fflate](https://github.com/101arrowz/fflate));
+- `browser.ts` — wiring: worker, cMaps, standard fonts.
+
+The UI page lives in the site repo; these files are its core, copied as is.

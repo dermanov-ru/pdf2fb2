@@ -2,8 +2,8 @@
 # This is the reference config that reproduces the first book converted with pdf2fb2.
 # Copy it to a new file per book and adjust.
 
-pdf: /home/mark/Документы/личные/books/Ardzinba_Moya_zhizn_2018.pdf
-out_dir: /home/mark/Документы/личные/books
+pdf: Ardzinba_Moya_zhizn_2018.pdf   # path to the PDF (relative to the current directory or absolute)
+# out_dir: .                         # defaults to the PDF's directory
 # out_stem: Ardzinba_Moya_zhizn_2018   # defaults to the PDF basename
 
 title: "Моя жизнь. Воспоминания"

@@ -1,6 +1,6 @@
 ---
 name: pdf-to-fb2
-description: Use this skill when Mark wants to convert a PDF book into FB2 (electronic book format) — phrases like "сконвертируй книгу в fb2", "переведи pdf в fb2", "сделай fb2 из этой книги", "конвертни книгу в фб2", "собери fb2 из pdf", "переведи учебник/мемуары в fb2". Handles professionally typeset text-layer PDFs (rebuilds paragraphs/chapters/photos); NOT scanned PDFs (those need OCR). Also English ("convert this PDF book to FB2", "make an FB2 from this PDF").
+description: Use this skill when the user wants to convert a PDF book into FB2 (electronic book format) — phrases like "сконвертируй книгу в fb2", "переведи pdf в fb2", "сделай fb2 из этой книги", "конвертни книгу в фб2", "собери fb2 из pdf", "переведи учебник/мемуары в fb2". Handles professionally typeset text-layer PDFs (rebuilds paragraphs/chapters/photos); NOT scanned PDFs (those need OCR). Also English ("convert this PDF book to FB2", "make an FB2 from this PDF").
 version: 1.0.0
 ---
 
@@ -17,9 +17,9 @@ version: 1.0.0
 Для сканов нужен OCR — это вне инструмента, честно скажи об этом.
 
 ## Инструменты и константы
-- **CLI:** `/home/mark/llm-projects/pdf2fb2/run.sh` (зови по абсолютному пути, cd не нужен).
+- **CLI:** `<путь к репозиторию>/run.sh` (зови по абсолютному пути, cd не нужен).
   Команды: `diagnose`, `calibrate`, `build`, `verify`.
-- **Пример-эталон конфига:** `/home/mark/llm-projects/pdf2fb2/examples/ardzinba.yaml`
+- **Пример-эталон конфига:** `<путь к репозиторию>/examples/ardzinba.yaml`
   (полностью рабочий, на нём же регрессия). Копируй его под новую книгу.
 - **Зависимости** (обычно уже стоят системно): poppler-utils, python3 + Pillow + PyYAML.
 
@@ -27,7 +27,7 @@ version: 1.0.0
 
 1. **Диагностика.** `run.sh diagnose <pdf>`.
    - Смотри «Текстовый слой»: если `~/стр` мало (⚠ скан) — OCR не делаем, останавливаемся
-     и говорим Марку, что тут нужен другой пайплайн.
+     и говорим пользователю, что тут нужен другой пайплайн.
    - Запомни: сколько изображений, есть ли CMYK, и listing `index→page`.
    - Из выведенного оглавления собери черновик списка глав.
 
@@ -58,7 +58,7 @@ version: 1.0.0
    - Если вшивал фото — открой Read'ом 1–2 картинки из `.pdf2fb2-work/img/rgb/`:
      если негативы — поставь `cmyk_invert: never` (или наоборот `always`) и пересобери.
 
-7. **Отдай результат.** Скажи Марку пути к файлам и что внутри (главы, число фото,
+7. **Отдай результат.** Скажи пользователю пути к файлам и что внутри (главы, число фото,
    что осознанно выкинул и почему). Спроси, скинуть ли файлы в чат.
 
 ## Типичные грабли
